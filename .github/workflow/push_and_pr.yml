@@ -1,0 +1,31 @@
+# This CI will run after publish a new release
+# from https://github.com/marketplace/actions/push-then-pr
+
+name: Push to Other Repo and Make a PR
+
+on:
+  push:
+    branches:
+      - main
+  
+jobs:
+  processing_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Push then create PR
+        uses: sepulsa/push_then_pr@master
+        env:
+            API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+
+            DEST_GITHUB_USERNAME: 'mlenkeit'
+            DEST_REPO_NAME: 'push-then-pr-replica'
+            USER_EMAIL: 'test@example.com'
+            PUSH_TO_BRANCH: 'update-from-leading'
+            PR_TO_BRANCH: 'main'
+            # You can add multiple source file or folder separate by space
+            SRC_DIR: 'replicate' 
+            # You can create nested folder
+            DEST_DIR: 'from-somewhere'
+            # Add your custom Pull Request message
+            PR_MESSAGE: 'Update from leading repo'
